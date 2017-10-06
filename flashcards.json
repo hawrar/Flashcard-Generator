@@ -1,0 +1,34 @@
+{
+    "flashcards": [
+        {
+            "front": "What is the capital of California?",
+            "back": "Sacramento",
+            "cloze": false
+        },
+         {
+      "front": "Who is the current Governor of California?",
+      "back": "Jerry Brown",
+      "cloze": false
+    },
+    {
+      "front": "Steve Jobs co-founded the Apple Computer Company.",
+      "back": "Steve Jobs",
+      "cloze": true
+    },
+    {
+      "front": "Golden Gate Bridge connects San Francisco to Marin County.",
+      "back": "Golden Gate",
+      "cloze": true
+    },
+    {
+      "front": "What is the name of the bridge between Emeryville and San Francisco?",
+      "back": "The Bay Bridge",
+      "cloze": false
+    },
+    {
+      "front": "The festival of the Burning Man is held every year in Nevada Desert.",
+      "back": "Burning Man",
+      "cloze": true
+    }
+    ]
+}
