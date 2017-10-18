@@ -1,8 +1,13 @@
+// The vars for json, inquirer, and flashcard
+
 'use strict';
 
 var json = require('./flashcards.json');
 var inquirer = require('inquirer');
 var flashcard = require('./ClozeCard');
+
+
+// The create prompt for the objects
 
 var createPrompt = [
     {
@@ -18,11 +23,15 @@ var createPrompt = [
     }
 ];
 
+
+// The requview prompt
 var reqviewPrompt = {
     type: 'confirm',
     name: 'review',
     message: 'Would you like to review your new flashcard?'
 };
+
+//The validate prompt
 
 var validatePrompt = {
     type: 'confirm',
@@ -30,19 +39,22 @@ var validatePrompt = {
     message: 'Cloze is not valid - would you like to re-create the flashcard?'
 };
 
+
+// The create card funciton with if and return;
+
 function createCard() {
     inquirer.prompt(createprompt).then(function(response) {
         if(res.type === 'Cloze') {
-            let fc = new flashcard(res.front.trim(), res.back.trim(), true);
+            var fc = new flashcard(res.front.trim(), res.back.trim(), true);
 
             if(!fc.valudate()) {
                 createCard();
             } else {
                 return;
             }
-        });
+        };
     } else {
-        let fc = new flashcard(res.front.trim(), res.back.trim());
+        var fc = new flashcard(res.front.trim(), res.back.trim());
         reviewCard(fc);
     }
 });
@@ -51,84 +63,131 @@ function createCard() {
 
 function reviewCard(flashcard_for_review) {
     var fc = flashcard_for_review;
-    // requiring here for scoping
-    const main_menu = require('./index.js');
-    // check if user wants to review the flashcard
+    
+
+    var main_menu = require('./index.js');
+
+
+    // This is to ask the user to check their choice
+
     inquirer.prompt(reviewPrompt).then(function(res) {
         if (res.review) {
-            // review flashcard
-            let reviewMessage = 'question: ' + ' ' + fc.getQuestion() + ' answer: ' + fc.back + ' (approve?)';
+            // Second step to check their choice
+
+            var reviewMessage = 'question: ' + ' ' + fc.getQuestion() + ' answer: ' + fc.back + ' (approve?)';
             inquirer.prompt({type:'confirm', name:'fontR', message:reviewMessage})
                 .then(function(res) {
                     if (res.fontR) {
-                        // save the flashcard
+
+
+                        // This is to save their choice
+
                         inquirer.prompt(savePrompt).then(function(res) {
                             if (res.save) {
-                                // save flashcard
+                              //  Another step to save the card
+
+
                                 saveCard(fc);
-                                // create another?
+                                
                                 inquirer.prompt(againPrompt).then(function(res) {
                                     if (res.again) {
                                         createCard();
                                     } else {
-                                        // return to main menu 
+                                        
+
+                                        // Function to go back to the main menu
                                         main_menu();
                                     }
                                 });
                             }
-                        }); // end savePrompt promise 
+                        }); 
+
+
                     } else {
-                        // create another?
+                        // Here is another create step
+
+
                         inquirer.prompt(againPrompt).then(function(res) {
                             if (res.again) {
                                 createCard();
                             } else {
-                                // return to main menu 
+                                
+
+                                // Going back to the main menue
                                 main_menu();
                             }
-                        }); // end againPrompt promise 
+                        }); 
                     }
-                }); // end reviewMessage promise 
+                }); 
+
+
+
         } else {
-            // save the flashcard
+
+
+            // Another step to save the card
+
+
+
             inquirer.prompt(savePrompt).then(function(res) {
                 if (res.save) {
-                    // save flashcard
+                    
+
                     saveCard(fc);
-                    // create another?
+                    
+
+                    //Another step to create
+
                     inquirer.prompt(againPrompt).then(function(res) {
                         if (res.again) {
                             createCard();
                         } else {
-                            // return to main menu 
+                            
                             main_menu();
                         }
-                    }); // end againPrompt promise 
+                    });
+
+
                 } else {
-                    // create another?
+
+
+                    // Another stop to create
+
+
                     inquirer.prompt(againPrompt).then(function(res) {
                         if (res.again) {
                             createCard();
                         } else {
-                            // return to main menu 
+                            
+
+
                             main_menu();
                         }
                     });
                 }
-            }); // end savePrompt promise 
+            }); 
+
+
         }
     });
 }
 
-// save new flashcard 
+// This is to save the card
+
+
 function saveCard(fc) {
-    // set file location
-    const file = './flashcards.json';
-    // read in file contents
-    let contents = jsonfile.readFileSync(file);
-    // push new flashcard to array
+    // The path to the json file
+    var file = './flashcards.json';
+    
+
+    var contents = jsonfile.readFileSync(file);
+    
+
+    // this for pushing the content and write 
     contents.flashcards.push(fc);
-    // write updated content to file 
+    
+
+
     jsonfile.writeFileSync(file, contents, {spaces: 2});
 
     return;

@@ -1,20 +1,20 @@
 'use strict';
 
 var fs = require('fs');
-// flashcard constructor
+// The constructor 
 function Flashcard(front, back, cloze = false) {
-    // scope safe constructor
+    // This is the if statement for the constructor
     if(!(this instanceof Flashcard)) {
         return new Flashcard(front, back, cloze);
     }
     this.front = front;
     this.back = back;
-    this.cloze = cloze; // cloze if it is true, default if it is false/basic
+    this.cloze = cloze; 
 } 
 
-// flashcard prototype methods 
+// The following are the  prototype methods 
 Flashcard.prototype = {
-    // validating the cloze
+    // The first is to validate it 
     validate: function validate() {
         if (this.cloze && this.front.includes(this.back)) {
             return true;
@@ -26,17 +26,22 @@ Flashcard.prototype = {
             return false;
         }
     },
-    // log it to log.txt
+    // Loggint it in the txt file
     logIt: function logIt(message) {
-        // appending message to the log file 
+
+
+        
         fs.appendFile("log.txt", message, function(error) {
             if (error) {
-                // send it to console if there is an error with the log file 
+                
+
+
                 console.log('error with the log file\n', error);
             }
         });
     },
-    // return the question based on the type
+    // the if and return function
+
     getQuestion: function getQuestion() {
         if (this.cloze) {
             return this.clozeDeleted();
@@ -44,9 +49,17 @@ Flashcard.prototype = {
             return this.front;
         }
     },
-    // return cloze deleted 
+
+
+    // Here we returnt the closze after it is deleted
+
+
     clozeDeleted: function clozeDeleted() {
-        // replace the cloze text
+
+        
+        // Another return for replace function
+
+
         return this.front.replace(this.back, '.....');
     }
 };
